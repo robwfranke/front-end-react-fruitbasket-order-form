@@ -117,10 +117,11 @@ function App() {
                 </fieldset>
 
 
-                <fieldset className="fieldset">
+                {/*<fieldset className="fieldset">*/}
 
                     <div className="reset">
                         <button
+                            className="resetButton"
                             type="button"
                             onClick={reset}
                         >
@@ -129,7 +130,7 @@ function App() {
 
                     </div>
 
-                </fieldset>
+                {/*</fieldset>*/}
 
             </div>
 
