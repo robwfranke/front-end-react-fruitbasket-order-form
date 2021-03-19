@@ -1,7 +1,26 @@
+// voor eerste keer:
+// npm install
+// npm install react-hook-form --save    --save zorgt ervoor dat het toegevoegd wordt aan package.json
+// runnen met npm start
+
+
+
 import React from 'react';
+
+import {useForm}  from "react-hook-form"
 import './App.css';
 
 function App() {
+
+    const{register, handleSubmit}= useForm();
+    const [checkedTerms, toggleCheckedTerms] = React.useState(false);
+
+
+
+    function onSubmit(event) {
+        event.preventDefault();
+        console.log("jij wilt versturen")
+    }
 
 
     const [countAardbeien, setCountAardbeien] = React.useState(0);
@@ -27,7 +46,7 @@ function App() {
             <div className="plusminus">
 
 
-                <fieldset className="fieldset">
+                <fieldset className="fieldset" >
 
                     <label>Aardbeien </label>
 
@@ -119,20 +138,109 @@ function App() {
 
                 {/*<fieldset className="fieldset">*/}
 
-                    <div className="reset">
-                        <button
-                            className="resetButton"
-                            type="button"
-                            onClick={reset}
-                        >
-                            Reset
-                        </button>
+                <div className="reset">
+                    <button
+                        className="resetButton"
+                        type="button"
+                        onClick={reset}
+                    >
+                        Reset
+                    </button>
 
-                    </div>
+                </div>
 
                 {/*</fieldset>*/}
 
             </div>
+
+
+            {/*  start opdracht 2*/}
+
+            <div className="opdracht2">
+
+
+                <form onSubmit={onSubmit}>
+                    <label id="naw">Voornaam
+                        <input type="text" name="surName" placeholder="bijv Jan"/>
+                    </label>
+
+                    <label id="naw">Achternaam
+                        <input type="text" name="familyName" placeholder="bijv Karelsen"/>
+                    </label>
+
+                    <label id="naw">Leeftijd
+                        <input type="text" name="Age" />
+                    </label>
+
+                    <label id="naw">Postcode
+                        <input type="text" name="PostalCode" placeholder="bijv 7500AA"/>
+                    </label>
+
+
+                    <p>Bezorgfrequentie</p>
+
+                    <div className="radio">
+
+                        <label htmlFor="field-eachWeek" id="radioButton">
+                            <input type="radio" name="frequentie" id="field-eachWeek"/>
+                            Iedere week
+                        </label>
+
+                        <lbl htmlFor="field-alternateWeek" id="radioButton">
+                            <input type="radio" name="frequentie" id="field-alternateWeek"/>
+                            Om de week
+                        </lbl>
+
+                        <label htmlFor="field-eachMonth" id="radioButton">
+                            <input type="radio" name="frequentie" id="field-eachMonth"/>
+                            Iedere maand
+                        </label>
+
+
+                        <label htmlFor="field-other" id="radioButton">
+                            <input type="radio" name="frequentie" id="field-other"/>
+                            Anders
+                        </label>
+
+                    </div>
+
+
+                    <label htmlFor="field-comments" >
+                        Opmerking
+                        <br/>
+                        <textarea name="recipe-comments" id="textArea" rows="4" cols="40"
+                                  placeholder="Wat vond je van het recept?"></textarea>
+                    </label>
+                    <p></p>
+
+                    <label htmlFor="terms-and-conditions">
+                        <input
+                            type="checkbox"
+                            name="terms-and-conditions"
+                            id="terms-and-conditions"
+                            checked={checkedTerms}
+                            onChange={() => toggleCheckedTerms(!checkedTerms)}
+                        />
+
+                        Ik ga akkoord met de algemene voorwaarden
+                    </label>
+                    <p></p>
+
+                    <button type="submit" id="submit">
+                        verzenden
+                    </button>
+
+
+                </form>
+
+
+
+
+
+
+            </div>
+
+
 
 
         </>
