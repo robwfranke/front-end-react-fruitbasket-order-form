@@ -4,22 +4,24 @@
 // runnen met npm start
 
 
-
 import React from 'react';
 
-import {useForm}  from "react-hook-form"
+import {useForm} from "react-hook-form"
 import './App.css';
 
 function App() {
 
-    const{register, handleSubmit}= useForm();
+    const {register, handleSubmit} = useForm();
     const [checkedTerms, toggleCheckedTerms] = React.useState(false);
 
 
+    // function onSubmit(event) {    deze hoeft niet meer, react-hook-form doet dat
+    //     event.preventDefault();
+    //     console.log("jij wilt versturen")
+    // }
 
-    function onSubmit(event) {
-        event.preventDefault();
-        console.log("jij wilt versturen")
+    function onSubmit(data) {
+        console.log(data)
     }
 
 
@@ -46,7 +48,7 @@ function App() {
             <div className="plusminus">
 
 
-                <fieldset className="fieldset" >
+                <fieldset className="fieldset">
 
                     <label>Aardbeien </label>
 
@@ -159,21 +161,21 @@ function App() {
             <div className="opdracht2">
 
 
-                <form onSubmit={onSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <label id="naw">Voornaam
-                        <input type="text" name="surName" placeholder="bijv Jan"/>
+                        <input ref={register} type="text" name="surName" placeholder="bijv Jan"/>
                     </label>
 
                     <label id="naw">Achternaam
-                        <input type="text" name="familyName" placeholder="bijv Karelsen"/>
+                        <input ref={register} type="text" name="familyName" placeholder="bijv Karelsen"/>
                     </label>
 
                     <label id="naw">Leeftijd
-                        <input type="text" name="Age" />
+                        <input ref={register} type="text" name="Age"/>
                     </label>
 
                     <label id="naw">Postcode
-                        <input type="text" name="PostalCode" placeholder="bijv 7500AA"/>
+                        <input ref={register} type="text" name="PostalCode" placeholder="bijv 7500AA"/>
                     </label>
 
 
@@ -182,30 +184,30 @@ function App() {
                     <div className="radio">
 
                         <label htmlFor="field-eachWeek" id="radioButton">
-                            <input type="radio" name="frequentie" id="field-eachWeek"/>
+                            <input ref={register} type="radio" name="frequentie" id="field-eachWeek" value="Iedere week"/>
                             Iedere week
                         </label>
 
                         <lbl htmlFor="field-alternateWeek" id="radioButton">
-                            <input type="radio" name="frequentie" id="field-alternateWeek"/>
+                            <input ref={register} type="radio" name="frequentie" id="field-alternateWeek" value="Om de week"/>
                             Om de week
                         </lbl>
 
                         <label htmlFor="field-eachMonth" id="radioButton">
-                            <input type="radio" name="frequentie" id="field-eachMonth"/>
+                            <input ref={register} type="radio" name="frequentie" id="field-eachMonth" value="Iedere maand"/>
                             Iedere maand
                         </label>
 
 
                         <label htmlFor="field-other" id="radioButton">
-                            <input type="radio" name="frequentie" id="field-other"/>
+                            <input ref={register} type="radio" name="frequentie" id="field-other" value="Anders"/>
                             Anders
                         </label>
 
                     </div>
 
 
-                    <label htmlFor="field-comments" >
+                    <label htmlFor="field-comments">
                         Opmerking
                         <br/>
                         <textarea name="recipe-comments" id="textArea" rows="4" cols="40"
@@ -215,6 +217,7 @@ function App() {
 
                     <label htmlFor="terms-and-conditions">
                         <input
+                            ref={register}
                             type="checkbox"
                             name="terms-and-conditions"
                             id="terms-and-conditions"
@@ -234,13 +237,7 @@ function App() {
                 </form>
 
 
-
-
-
-
             </div>
-
-
 
 
         </>
