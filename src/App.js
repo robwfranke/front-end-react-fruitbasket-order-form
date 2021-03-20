@@ -10,8 +10,15 @@ import {useForm} from "react-hook-form"
 import './App.css';
 
 function App() {
+    //na useform( staan allerlei waardes die jekunt meegeven, zoals defaultValues
+    const {register, handleSubmit, errors} = useForm({
 
-    const {register, handleSubmit} = useForm();
+        defaultValues: {
+            surName: "Jan",
+            familyName: "Klaassen"
+        },
+        // mode: "onChange"
+    });
     const [checkedTerms, toggleCheckedTerms] = React.useState(false);
 
 
@@ -21,7 +28,21 @@ function App() {
     // }
 
     function onSubmit(data) {
-        console.log(data)
+
+        console.log("Aantal Aardbeien  " + countAardbeien)
+        console.log("Aantal Bananen  " + countBananen)
+        console.log("Aantal Appels  " + countAppels)
+        console.log("Aantal Kiwi's  " + countKiwi)
+        console.log("surName  " + data.surName)
+        console.log("familyName  " + data.familyName)
+        console.log("leeftijd  " + data.age)
+        console.log("Postcode  " + data.postalCode)
+        console.log("frequentie  "+data.frequentie)
+
+        console.log("comments  " + data.comments)
+
+
+
     }
 
 
@@ -163,19 +184,28 @@ function App() {
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <label id="naw">Voornaam
-                        <input ref={register} type="text" name="surName" placeholder="bijv Jan"/>
+                        <input ref={register({required: true, maxLength: 10})} type="text" name="surName"
+                               placeholder="bijv Jan"/>
+                        {errors.surName && <p>fout! Voornaam</p>}
                     </label>
 
                     <label id="naw">Achternaam
-                        <input ref={register} type="text" name="familyName" placeholder="bijv Karelsen"/>
+                        <input ref={register({required: true})} type="text" name="familyName"
+                               placeholder="bijv Karelsen"/>
+                        {errors.familyName && <p>fout! Achternaam</p>}
                     </label>
 
                     <label id="naw">Leeftijd
-                        <input ref={register} type="text" name="Age"/>
+                        <input ref={register({required: true, min: 18})} type="number" name="age"/>
+                        {errors.age && <p>fout! Leeftijd</p>}
                     </label>
 
+                    {/*kijk bij omschrijving regex*/}
+
                     <label id="naw">Postcode
-                        <input ref={register} type="text" name="PostalCode" placeholder="bijv 7500AA"/>
+                        <input ref={register({required: true, pattern: /^(?:NL-)?(\d{4})\s*([A-Z]{2})$/i})} type="text"
+                               name="postalCode" placeholder="bijv 7500AA"/>
+                        {errors.postalCode && <p>fout! 1234 AA of 1234 aa of 1234AA</p>}
                     </label>
 
 
@@ -184,17 +214,21 @@ function App() {
                     <div className="radio">
 
                         <label htmlFor="field-eachWeek" id="radioButton">
-                            <input ref={register} type="radio" name="frequentie" id="field-eachWeek" value="Iedere week"/>
+                            <input ref={register({required: true})} type="radio" name="frequentie" id="field-eachWeek"
+                                   value="Iedere week"/>
+
                             Iedere week
                         </label>
 
                         <lbl htmlFor="field-alternateWeek" id="radioButton">
-                            <input ref={register} type="radio" name="frequentie" id="field-alternateWeek" value="Om de week"/>
+                            <input ref={register} type="radio" name="frequentie" id="field-alternateWeek"
+                                   value="Om de week"/>
                             Om de week
                         </lbl>
 
                         <label htmlFor="field-eachMonth" id="radioButton">
-                            <input ref={register} type="radio" name="frequentie" id="field-eachMonth" value="Iedere maand"/>
+                            <input ref={register} type="radio" name="frequentie" id="field-eachMonth"
+                                   value="Iedere maand"/>
                             Iedere maand
                         </label>
 
@@ -202,7 +236,18 @@ function App() {
                         <label htmlFor="field-other" id="radioButton">
                             <input ref={register} type="radio" name="frequentie" id="field-other" value="Anders"/>
                             Anders
+                            {errors.frequentie && <p>Radiobutton kiezen!!</p>}
                         </label>
+
+
+                        <label htmlFor="field-other" id="radioButton1" >
+                            <input ref={register} type="radio" name="frequentie" id="field-other" value="Anders"/>
+                            Anders
+                            {errors.frequentie && <p>Radiobutton kiezen!!</p>}
+                        </label>
+
+
+
 
                     </div>
 
@@ -210,8 +255,8 @@ function App() {
                     <label htmlFor="field-comments">
                         Opmerking
                         <br/>
-                        <textarea name="recipe-comments" id="textArea" rows="4" cols="40"
-                                  placeholder="Wat vond je van het recept?"></textarea>
+                        <textarea ref={register({required: true})} name="comments" id="textArea" rows="4" cols="40"
+                        ></textarea>
                     </label>
                     <p></p>
 
@@ -229,7 +274,7 @@ function App() {
                     </label>
                     <p></p>
 
-                    <button type="submit" id="submit">
+                    <button type="submit" id="submit" disabled={!checkedTerms}>
                         verzenden
                     </button>
 
